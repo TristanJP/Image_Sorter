@@ -1,6 +1,6 @@
 """
 Module for shared code which is used for providing the
-CLI version of the Music Memory Game.
+CLI version of the Image Sorter.
 """
 
 __author__ = "Tristan Perkins"

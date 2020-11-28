@@ -23,23 +23,23 @@ TEST_REQUIREMENTS = [
 ]
 
 setup(
-    name='music_memory',
+    name='image-sorter',
     version='0.0.1',
-    description='Music Memory Game MVP',
+    description='Tool for sorting through large volumes of images and removing duplicates.',
     long_description=README,
-    license=LICENSE
+    license=LICENSE,
     author='Tristan Perkins',
     author_email='trisperk@hotmail.com',
-    url='https://github.com/TristanJP/MusicMemoryMVP',
+    url='https://github.com/TristanJP/Image_Sorter',
     packages=[
-        'music_memory'
+        'image_sorter'
     ],
     package_dir={
-        'music_memory': 'music_memory',
+        'image_sorter': 'image_sorter',
     },
     entry_points={
         'console_scripts': [
-            'music_memory_play=music_memory.blah:_main',
+            'sort_images=image_sorter.test:_main',
         ]
     },
     include_package_data=True,
@@ -49,7 +49,7 @@ setup(
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.8',
     ],
     test_suite='tests',
     tests_require=TEST_REQUIREMENTS

@@ -15,8 +15,8 @@ clean:
 	find . -name '__pycache__' -exec rm -fr {} +
 
 dist: clean
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
+	python3.9 setup.py sdist
+	python3.9 setup.py bdist_wheel
 	ls -l dist
 
 .PHONY: docs
@@ -25,18 +25,22 @@ docs:
 
 .PHONY: format
 format:
-	isort --recursive --verbose docs tests music_memory setup.py
+	isort --recursive --verbose docs tests image_sorter setup.py
 	yapf -i --recursive tests
-	yapf -i --recursive music_memory
+	yapf -i --recursive image_sorter
 
 .PHONY: install
 install: clean
-	python3 setup.py install
+	python3.9 setup.py install
+
+.PHONY: uninstall
+uninstall: clean
+	python3.9 -m pip uninstall image-sorter
 
 .PHONY: lint
 lint:
-	pylint tests music_memory
+	pylint tests image_sorter
 
 .PHONY: test
 test:
-	python3 setup.py test
+	python3.9 setup.py test
