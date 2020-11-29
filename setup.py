@@ -16,8 +16,10 @@ if os.path.exists('LICENSE'):
         LICENSE = license_file.read()
 
 
-REQUIREMENTS = [
-]
+REQUIREMENTS = ''
+if os.path.exists('requirements.txt'):
+    with open('requirements.txt') as reqs_file:
+        REQUIREMENTS = reqs_file.read()
 
 TEST_REQUIREMENTS = [
 ]
@@ -39,7 +41,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'sort_images=image_sorter.test:_main',
+            'sort-images=image_sorter.__main__:main',
         ]
     },
     include_package_data=True,

@@ -7,7 +7,7 @@ clean:
 	rm -rf dist/
 	rm -rf .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -fr {} +
 	# Compiled python files
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
@@ -35,7 +35,11 @@ install: clean
 
 .PHONY: uninstall
 uninstall: clean
-	python3.9 -m pip uninstall image-sorter
+	python3.9 -m pip uninstall image-sorter -y
+
+.PHONY: remove
+remove: uninstall
+	python3.9 -m pip uninstall -r requirements.txt -y
 
 .PHONY: lint
 lint:
