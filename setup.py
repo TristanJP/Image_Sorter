@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os.path
-
 from setuptools import setup
 
 README = ''
@@ -14,7 +13,6 @@ LICENSE = ''
 if os.path.exists('LICENSE'):
     with open('LICENSE') as license_file:
         LICENSE = license_file.read()
-
 
 REQUIREMENTS = ''
 if os.path.exists('requirements.txt'):
@@ -47,11 +45,11 @@ setup(
     include_package_data=True,
     install_requires=REQUIREMENTS,
     zip_safe=True,
-    keywords='subnet',
+    keywords=['image', 'sorter', 'duplicate'],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     test_suite='tests',
     tests_require=TEST_REQUIREMENTS

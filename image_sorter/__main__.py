@@ -3,7 +3,7 @@ Docstring
 """
 
 import sys
-from image_sorter.file_handler import FileHandler
+from image_sorter.sorter import Sorter
 
 def main(args=None):
     if args is None:
@@ -11,10 +11,10 @@ def main(args=None):
 
     # Main Routine Here
 
-    fh = FileHandler(["T"])
-    fh.greet()
+    image_sorter = Sorter()
+    image_sorter.hash_directories(["/mnt/f/Pictures/RichardJoSona"])
 
-    print("Yo Angelo")
+    image_sorter.save_hash_dict("/mnt/f/Pictures/RichardJoSona/image_hashes.json")
 
 
     # Arg Parsing Here
