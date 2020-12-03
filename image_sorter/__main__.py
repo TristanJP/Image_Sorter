@@ -19,6 +19,8 @@ def main(args=None):
 
     image_sorter.list_duplicates()
 
+    image_sorter.save_duplicates_dict("/mnt/f/Pictures/RichardJoSona/duplicates.json")
+
 
     # Arg Parsing Here
 

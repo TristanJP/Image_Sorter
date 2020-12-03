@@ -124,8 +124,21 @@ class Sorter:
     """
     def save_hash_dict(self, save_path):
         print("[INFO] Saving Image Hash Dictionary:")
+        self.save_json_file(self.image_hashes, save_path)
+
+    """
+    Save the Duplicates dictionary as a JSON file
+    """
+    def save_duplicates_dict(self, save_path):
+        print("[INFO] Saving Duplicates Dictionary:")
+        self.save_json_file(self.duplicates, save_path)
+
+    """
+    Save file
+    """
+    def save_json_file(self, content, save_path):
         print(f"- Saving to file location: \"{save_path}\"")
         with open(save_path, "w") as save_file:
             # Writes JSON file
-            save_file.write(json.dumps(self.image_hashes))
+            save_file.write(json.dumps(content))
         print("    done")
