@@ -6,7 +6,10 @@ import os
 import json
 import hashlib
 from time import time
+
 from imutils import paths
+import glob
+import re
 
 """
 Class for reading and hashing images in directories
@@ -22,6 +25,8 @@ class Sorter:
 
         self.duplicates = {}
         self.duplicate_count = 0
+
+        self.time_searching = 0
 
     """
     May be useful, but seems too slow for now
@@ -50,6 +55,36 @@ class Sorter:
             return image_bytes
 
     """
+    Finds all image files in a directory
+    """
+    def find_images_imutils(self, directory_path):
+        # Uses OpenCV :/
+        image_list = list(paths.list_images(directory_path))
+        #print(f"Total: {len(image_list)}\n{image_list}")
+        return image_list
+
+    def find_images_glob(self, directory_path):
+        # Can only find one filetype currently
+        image_list = []
+
+        for filename in glob.glob(directory_path + "/*.png", recursive=True):
+            image_list.append(filename)
+
+        #print(f"Total: {len(image_list)}\n{image_list}")
+        return image_list
+
+    def find_images_walk(self, directory_path):
+        # Manual
+        image_list = []
+
+        for root, dirs, files in os.walk(directory_path):
+            for filename in files:
+                if (re.match(r".*\.(jpg|png|jpeg)$", filename)):
+                    image_list.append(os.path.join(root, filename))
+        #print(f"Total: {len(image_list)}\n{image_list}")
+        return image_list
+
+    """
     Hash image using SHA256
     """
     def hash_image_sha256(self, image_path):
@@ -70,8 +105,11 @@ class Sorter:
         print(f"- Hashing \"{directory_path}\" ...")
         #bmh_hasher = cv2.img_hash.BlockMeanHash_create()
 
-        # Get list of all images in directory using imutils
-        image_paths = list(paths.list_images(directory_path))
+        st = time()
+        # Get list of all images in directory
+        image_paths = self.find_images_walk(directory_path)
+        et = time() - st
+        self.time_searching += et
 
         # Get number of files
         self.image_count += len(image_paths)
@@ -107,6 +145,7 @@ class Sorter:
         print("[INFO] All valid directories hashed.")
         elapsed = time() - t
         print(f"- Total Images Hashed: {self.image_count}\n- Time taken: {elapsed}")
+        print(f"- Time spent searching for files: {self.time_searching}")
 
     """
     Creates a list of all duplicate images
