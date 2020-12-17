@@ -6,9 +6,6 @@ import os
 import json
 import hashlib
 from time import time
-
-from imutils import paths
-import glob
 import re
 
 """
@@ -57,29 +54,13 @@ class Sorter:
     """
     Finds all image files in a directory
     """
-    def find_images_imutils(self, directory_path):
-        # Uses OpenCV :/
-        image_list = list(paths.list_images(directory_path))
-        #print(f"Total: {len(image_list)}\n{image_list}")
-        return image_list
-
-    def find_images_glob(self, directory_path):
-        # Can only find one filetype currently
-        image_list = []
-
-        for filename in glob.glob(directory_path + "/*.png", recursive=True):
-            image_list.append(filename)
-
-        #print(f"Total: {len(image_list)}\n{image_list}")
-        return image_list
-
     def find_images_walk(self, directory_path):
         # Manual
         image_list = []
 
         for root, dirs, files in os.walk(directory_path):
             for filename in files:
-                if (re.match(r".*\.(jpg|png|jpeg)$", filename)):
+                if (re.match(r".*\.(jpg|png|jpeg|mp4|avi)$", filename)):
                     image_list.append(os.path.join(root, filename))
         #print(f"Total: {len(image_list)}\n{image_list}")
         return image_list
@@ -103,7 +84,6 @@ class Sorter:
     """
     def hash_all_images(self, directory_path):
         print(f"- Hashing \"{directory_path}\" ...")
-        #bmh_hasher = cv2.img_hash.BlockMeanHash_create()
 
         st = time()
         # Get list of all images in directory
