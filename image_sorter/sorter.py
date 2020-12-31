@@ -4,6 +4,7 @@ Module Docstring
 
 import os
 import json
+import shutil
 import hashlib
 from time import time
 import re
@@ -16,7 +17,7 @@ class Sorter:
     """
     Initialise Sorter
     """
-    def __init__(self):
+    def __init__(self, target_path=None):
         self.image_hashes = {}
         self.image_count = 0
 
@@ -24,6 +25,8 @@ class Sorter:
         self.duplicate_count = 0
 
         self.time_searching = 0
+
+        self.target_path = target_path
 
     """
     May be useful, but seems too slow for now
@@ -60,7 +63,7 @@ class Sorter:
 
         for root, dirs, files in os.walk(directory_path):
             for filename in files:
-                if (re.match(r".*\.(jpg|png|jpeg|mp4|avi)$", filename)):
+                if (re.match(r".*\.(jpg|png|jpeg|mp4|avi|mkv)$", filename)):
                     image_list.append(os.path.join(root, filename))
         #print(f"Total: {len(image_list)}\n{image_list}")
         return image_list
@@ -82,7 +85,7 @@ class Sorter:
     """
     Hash all images in a directory
     """
-    def hash_all_images(self, directory_path):
+    def hash_all_images(self, directory_path, cmd):
         print(f"- Hashing \"{directory_path}\" ...")
 
         st = time()
@@ -103,6 +106,12 @@ class Sorter:
             # If hash doesn't exist already, return empty list
             image_hash = self.image_hashes.get(hashed_image, [])
 
+            # if len(image_hash) < 1:
+
+            #     if "copy" in cmd:
+            #         shutil.copyfile(original, target)
+
+
             # Append image path to list
             image_hash.append(image_path)
 
@@ -113,19 +122,22 @@ class Sorter:
     """
     Hash all images in a list of directories
     """
-    def hash_directories(self, directory_paths):
+    def hash_directories(self, directory_paths, cmd):
         t = time()
         self.image_count = 0
         print("[INFO] Hashing all images in directory list:")
         for path in directory_paths:
             if os.path.isdir(path):
-                self.hash_all_images(path)
+                self.hash_all_images(path, cmd)
             else:
                 print(f"[WARNING] Invalid directory: \"{path}\"\n  continuing...")
         print("[INFO] All valid directories hashed.")
         elapsed = time() - t
         print(f"- Total Images Hashed: {self.image_count}\n- Time taken: {elapsed}")
         print(f"- Time spent searching for files: {self.time_searching}")
+
+        # if "list" in cmd
+        #     self.list_duplicates()
 
     """
     Creates a list of all duplicate images
@@ -137,6 +149,9 @@ class Sorter:
                 self.duplicate_count += len(image_list)
                 self.duplicates[image_hash] = image_list
         print(f"- Total Duplicates: {self.duplicate_count} for {len(self.duplicates)} unique file(s).")
+
+    def copy_uniques(self, target_path):
+        print(f"[INFO] Copying the Unique Images to: {target_path}")
 
     """
     Save the Hashed Image dictionary as a JSON file

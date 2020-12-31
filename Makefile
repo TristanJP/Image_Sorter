@@ -15,8 +15,8 @@ clean:
 	find . -name '__pycache__' -exec rm -fr {} +
 
 dist: clean
-	python3.9 setup.py sdist
-	python3.9 setup.py bdist_wheel
+	python3 setup.py sdist
+	python3 setup.py bdist_wheel
 	ls -l dist
 
 .PHONY: docs
@@ -31,15 +31,15 @@ format:
 
 .PHONY: install
 install: clean
-	python3.9 setup.py install
+	python3 setup.py install
 
 .PHONY: uninstall
 uninstall: clean
-	python3.9 -m pip uninstall image-sorter -y
+	python3 -m pip uninstall image-sorter -y
 
 .PHONY: remove
 remove: uninstall
-	python3.9 -m pip uninstall -r requirements.txt -y
+	python3 -m pip uninstall -r requirements.txt -y
 
 .PHONY: lint
 lint:
@@ -47,4 +47,4 @@ lint:
 
 .PHONY: test
 test:
-	python3.9 setup.py test
+	python3 setup.py test
